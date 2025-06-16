@@ -1,8 +1,24 @@
 # META-Business-Suite
 ## Overview
 #### Dayabase:MBS_db
-
+This database contains detailed information about 50 social media posts published as part of various marketing campaigns. Each post includes metadata such as content type, posting time, user ID, campaign name, and performance metrics including likes, comments, shares, and (for videos) video length. The data allows for in-depth analysis of user engagement trends across formats, campaigns, and time slots.
 ## Objectives
+Objectives
+The primary goals of this analysis are to:
+
+#### Identify high-performing content types based on engagement metrics (likes, comments, shares).
+
+#### Analyze time-based trends such as best times of day and days of the week for posting.
+
+#### Evaluate campaign effectiveness in terms of engagement and interaction.
+
+#### Compare short vs. long video performance to determine optimal video length.
+
+#### Discover posting patterns across content types, engagement ratios, and user behavior.
+
+#### Calculate engagement efficiency (e.g., comment-to-like ratio, viral coefficient).
+
+#### Support future strategy development by identifying data-driven opportunities for content optimization.
 
 ## Creating Database
 ```sql
@@ -146,5 +162,46 @@ WHERE comments>0;
 ```
 #### 17. Build an engagement heatmap by day_of_week and hour_of_day?
 ```sql
-
+-- BY DAY OF WEEK
+SELECT 
+        DAYNAME(post_date) AS Day_of_Week, 
+        COUNT(*) AS Total_Posts, SUM( shares) AS Total_Shares,
+    SUM(comments) AS Total_Comments,SUM(likes) AS Total_Likes, 
+    SUM(comments+likes+shares) AS Total_Engagements,
+        AVG(comments+likes+shares) AS Average_Engagement FROM posts
+GROUP BY Day_of_Week;
+-- BY HOUR OF DAY
+SELECT
+        HOUR(post_time) AS Hour_of_Day,
+        COUNT(*) AS Total_Posts, SUM( shares) AS Total_Shares,
+    SUM(comments) AS Total_Comments,SUM(likes) AS Total_Likes, 
+    SUM(comments+likes+shares) AS Total_Engagements,
+        AVG(comments+likes+shares) AS Average_Engagement FROM posts
+GROUP BY  Hour_of_Day
+ORDER BY  Hour_of_Day;
+-- BY by day_of_week and hour_of_day
+SELECT 
+        DAYNAME(post_date) AS Day_of_Week, 
+        HOUR(post_time) AS Hour_of_Day,
+        COUNT(*) AS Total_Posts, SUM( shares) AS Total_Shares,
+    SUM(comments) AS Total_Comments,SUM(likes) AS Total_Likes, 
+    SUM(comments+likes+shares) AS Total_Engagements,
+    AVG(comments+likes+shares) AS Average_Engagement FROM posts
+GROUP BY  Day_of_Week,  Hour_of_Day
+ORDER BY  FIELD(Day_of_Week,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'),Hour_of_Day;
 ```
+## Conclusion
+
+#### Videos significantly outperform other content types in average engagement, suggesting a strong audience preference for dynamic media.
+
+#### The most engaging time slot appears to be the evening (especially around 8–9 PM), while weekdays generate far more engagement than weekends.
+
+#### Campaigns like JokeCentral, GameOn, and Style2025 had the highest engagement, especially in comments, indicating content resonance with the target audience.
+
+#### Longer videos (>2 minutes) outperform short ones in terms of average shares, despite taking more viewer time—implying more value or interest in extended content.
+
+#### Posts with the highest like-to-length ratio and viral coefficient are clear benchmarks for future content strategy.
+
+#### Despite a relatively even distribution of content types, text posts had the highest comment-to-like ratio, hinting at deeper viewer interaction even if overall reach was lower.
+
+
