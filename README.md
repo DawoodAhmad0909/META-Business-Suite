@@ -3,7 +3,6 @@
 #### Dayabase:MBS_db
 This database contains detailed information about 50 social media posts published as part of various marketing campaigns. Each post includes metadata such as content type, posting time, user ID, campaign name, and performance metrics including likes, comments, shares, and (for videos) video length. The data allows for in-depth analysis of user engagement trends across formats, campaigns, and time slots.
 ## Objectives
-Objectives
 The primary goals of this analysis are to:
 
 #### Identify high-performing content types based on engagement metrics (likes, comments, shares).
